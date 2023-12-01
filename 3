@@ -1,0 +1,53 @@
+CREATE TABLE sj_tbl2(sjno number(8) NOT NULL PRIMARY KEY,
+custid varchar2(10),
+sjdate date,
+contents varchar2(20),
+sex char(1),
+grade number(2),
+sj_gh char(2));
+
+INSERT INTO sj_tbl2 VALUES(1,'aaa','20221101','와우 놀랍군요','m','97','sj');
+INSERT INTO sj_tbl2 VALUES(2,'bbb','20221101','천생연분','f','80','gh');
+INSERT INTO sj_tbl2 VALUES(3,'ccc','20221101','안 맞아요!','f','44','gh');
+INSERT INTO sj_tbl2 VALUES(4,'ddd','20221118','무난합니다.','f','70','sj');
+INSERT INTO sj_tbl2 VALUES(5,'eee','20221118','당장헤어져','m','34','gh');
+INSERT INTO sj_tbl2 VALUES(6,'fff','20221118','끼가없네요','m','20','sj');
+
+CREATE TABLE custominfo_tbl02(custid varchar2(10) NOT NULL PRIMARY KEY,
+name varchar2(20),
+sex char(10),
+birth date,
+b_time varchar2(10),
+calendar varchar2(10));
+
+
+INSERT INTO custominfo_tbl02 VALUES('aaa','김고객','남자','19690706','자시','양력');
+INSERT INTO custominfo_tbl02 VALUES('bbb','이고객','여자','20011201','축시','양력');
+INSERT INTO custominfo_tbl02 VALUES('ccc','박고객','여자','20020204','인시','음력');
+INSERT INTO custominfo_tbl02 VALUES('ddd','홍고객','여자','19940904','묘시','양력');
+INSERT INTO custominfo_tbl02 VALUES('eee','조고객','남자','19971224','진시','음력');
+INSERT INTO custominfo_tbl02 VALUES('fff','백고객','남자','20011123','사시','양력');
+
+SELECT s.sjno 발송번호,
+s.custid 고객ID,
+c.name 고객명,
+TO_CHAR(s.sjdate,'YYYY-MM-DD') 신청일자,
+s.contents 사주결과,
+UPPER(s.sj_gh) 사주구분
+FROM sj_tbl2 s, custominfo_tbl02 c
+WHERE s.custid=c.custid
+GROUP BY s.sjno,
+s.custid,
+c.name,
+TO_CHAR(s.sjdate,'YYYY-MM-DD'),
+s.contents,
+UPPER(s.sj_gh)
+ORDER BY s.sjno;
+
+INSERT INTO custominfo_tbl02 VALUES(?,?,?,?,?,?)
+
+SELECT c.sex 성별,
+Count(s.contents) 건수
+FROM sj_tbl2 s, custominfo_tbl02 c
+WHERE s.custid=c.custid
+GROUP BY c.sex;
